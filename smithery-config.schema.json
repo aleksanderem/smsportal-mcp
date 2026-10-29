@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": ["apiKey"],
+  "properties": {
+    "apiKey": {
+      "type": "string",
+      "title": "smsportal.app API key",
+      "description": "Create it in the smsportal.app dashboard (API keys). Messages go out from your own Android phone and number.",
+      "x-from": { "header": "x-api-key" }
+    }
+  }
+}
