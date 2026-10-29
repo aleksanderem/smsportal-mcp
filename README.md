@@ -81,7 +81,8 @@ Local (stdio) client entry:
 | `HOST`, `PORT` | `127.0.0.1`, `3002` | HTTP mode listener |
 
 HTTP mode (`node dist/index.js --http`, or the `Dockerfile`) serves Streamable HTTP at `/mcp`, takes
-the API key from `Authorization: Bearer`, validates it before every request and rate-limits per
+the API key from `Authorization: Bearer` (or an `x-api-key` header, for hosts that cannot add the
+`Bearer` prefix), validates it before every request and rate-limits per
 caller network.
 
 ## Development

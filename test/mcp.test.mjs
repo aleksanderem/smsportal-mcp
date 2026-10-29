@@ -93,6 +93,16 @@ test('invalid key and missing auth rejected before MCP discovery', async () => {
   assert.equal(invalid.status,401); assert.match(invalid.headers.get('www-authenticate'),/Bearer/)
   assert.doesNotMatch(await invalid.text(), /SECRET UPSTREAM/)
 })
+test('x-api-key header works for clients that cannot send Bearer (Smithery)', async () => {
+  const list = body => fetch(endpoint,{method:'POST',headers:{...body,'content-type':'application/json',accept:'application/json, text/event-stream'},body:JSON.stringify({jsonrpc:'2.0',id:7,method:'tools/list'})})
+  const ok = await list({'x-api-key':'account-b'})
+  assert.equal(ok.status,200)
+  assert.equal(requests.at(-1).key,'account-b')
+  const bad = await list({'x-api-key':'revoked-key'})
+  assert.equal(bad.status,401); assert.doesNotMatch(await bad.text(), /SECRET UPSTREAM/)
+  const spaced = await list({'x-api-key':'two words'})
+  assert.equal(spaced.status,401)
+})
 test('cross-origin, hostile Host and oversized requests rejected', async () => {
   const evil = await fetch(endpoint,{method:'POST',headers:{origin:'https://evil.example',authorization:'Bearer account-a','content-type':'application/json'},body:'{}'})
   assert.equal(evil.status,403)

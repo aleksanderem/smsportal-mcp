@@ -49,12 +49,12 @@ export function createHttpApp(config: HttpConfig) {
   })
   app.use(express.json({ limit: '128kb' }))
   app.all('/mcp', async (req, res) => {
-    const match = /^Bearer ([^\s]{1,512})$/.exec(req.headers.authorization || '')
-    if (!match) {
+    const key = apiKeyFrom(req)
+    if (!key) {
       res.setHeader('WWW-Authenticate', 'Bearer realm="smsportal"')
       res.status(401).json({ error: 'Provide your SMS Portal API key as Authorization: Bearer <key>.' }); return
     }
-    const client = new PortalClient(base, match[1], 15000, req.ip || req.socket.remoteAddress)
+    const client = new PortalClient(base, key, 15000, req.ip || req.socket.remoteAddress)
     // Validate even discovery/initialization: no public unauthenticated MCP session.
     try { await client.request('/gateway/stats') } catch (error) {
       const status = error instanceof PortalError && [401, 403, 429].includes(error.status) ? error.status : 503
@@ -77,6 +77,17 @@ export function createHttpApp(config: HttpConfig) {
     res.status(status).json({ error: status === 413 ? 'Request too large.' : 'Invalid JSON request.' })
   })
   return app
+}
+
+/**
+ * The API key from Authorization: Bearer, or from x-api-key for hosts such as
+ * Smithery that forward a configured header without the Bearer prefix.
+ */
+function apiKeyFrom(req: express.Request): string | undefined {
+  const bearer = /^Bearer ([^\s]{1,512})$/.exec(req.headers.authorization || '')
+  if (bearer) return bearer[1]
+  const header = req.headers['x-api-key']
+  return typeof header === 'string' && /^[^\s]{1,512}$/.test(header) ? header : undefined
 }
 
 /** Group a rotating IPv6 interface into its /64, matching the API throttle. */
