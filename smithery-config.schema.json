@@ -4,8 +4,8 @@
   "properties": {
     "apiKey": {
       "type": "string",
-      "title": "smsportal.app API key",
-      "description": "Create it in the smsportal.app dashboard (API keys). Messages go out from your own Android phone and number.",
+      "title": "SMS Portal|app API key",
+      "description": "Create it in the SMS Portal|app dashboard (API keys). Messages go out from your own Android phone and number.",
       "x-from": { "header": "x-api-key" }
     }
   }

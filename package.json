@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Send and read SMS through your smsportal account using MCP",
+  "description": "Send and read SMS through your SMS Portal|app account using MCP",
   "license": "MIT",
   "engines": { "node": ">=20" },
   "scripts": {

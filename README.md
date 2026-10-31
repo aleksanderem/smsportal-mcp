@@ -1,4 +1,4 @@
-# smsportal.app MCP server
+# SMS Portal|app MCP server
 
 Send and read SMS from your own Android phone through AI agents such as Claude, Cursor or any
 other [Model Context Protocol](https://modelcontextprotocol.io) client.

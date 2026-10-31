@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "app.smsportal/sms",
-  "title": "smsportal.app SMS",
-  "description": "Send and read SMS from your own Android phone and number. No per-message fees from smsportal.",
+  "title": "SMS Portal|app SMS",
+  "description": "Send and read SMS from your own Android phone and number. No per-message fees from SMS Portal|app.",
   "version": "1.0.0",
   "websiteUrl": "https://smsportal.app/en/integrations/mcp",
   "repository": {
@@ -16,7 +16,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer <your smsportal.app API key>, created in the dashboard",
+          "description": "Bearer <your SMS Portal|app API key>, created in the dashboard",
           "isRequired": true,
           "isSecret": true
         }
